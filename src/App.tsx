@@ -1,4 +1,5 @@
 import Map, {
+  AttributionControl,
   FullscreenControl,
   Layer,
   MapRef,
@@ -49,10 +50,18 @@ function App() {
   const onSelectCity = useCallback(({ longitude, latitude }: any) => {
     mapRef.current?.flyTo({
       center: [longitude, latitude],
-      zoom: 14,
+      zoom: 16,
       duration: 2000,
     });
   }, []);
+
+  const _onGetToVietNam = () => {
+    mapRef.current?.flyTo({
+      center: [108.1720894622796, 15.261682243732155],
+      zoom: 5.5,
+      duration: 2000,
+    });
+  };
 
   const initialViewState = {
     longitude: 108.1720894622796,
@@ -67,15 +76,21 @@ function App() {
       <Map
         ref={mapRef as any}
         initialViewState={initialViewState}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/tuanngv244/clqrkb1ds00y501qr4pux93mm"
+        // mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken={TOKEN}
+        interactiveLayerIds={["counties"]}
       >
         <GeocoderControl mapboxAccessToken={TOKEN} position="top-left" />
         <FullscreenControl position="top-left" />
         <NavigationControl position="top-left" />
         <ScaleControl />
+        <AttributionControl customAttribution="Map design by me" />
 
-        <Source type="vector" url="mapbox://mapbox.82pkq93d">
+        <Source
+          type="vector"
+          url="mapbox://styles/tuanngv244/clqqmmu8d00x201qv1fez4byy"
+        >
           <Layer beforeId="waterway-label" {...countiesLayer} />
         </Source>
 
@@ -88,20 +103,23 @@ function App() {
             latitude={Number(popupInfo.latitude)}
             onClose={() => setPopupInfo(null)}
           >
-            <div>
+            <div style={{ color: "black" }}>
               {popupInfo.city}, {popupInfo.state} |{" "}
               <a
                 target="_new"
-                href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}
+                href={`https://www.google.com/search?q=${popupInfo.city}, ${popupInfo.state}`}
               >
-                Wikipedia
+                Google
               </a>
             </div>
             <img width="100%" src={popupInfo.image} />
           </Popup>
         )}
       </Map>
-      <ControlPanel onSelectCity={onSelectCity} />
+      <ControlPanel
+        _onGetToVietNam={_onGetToVietNam}
+        onSelectCity={onSelectCity}
+      />
     </div>
   );
 }

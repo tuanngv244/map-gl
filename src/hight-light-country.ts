@@ -5,7 +5,7 @@ export const countiesLayer: FillLayer = {
   type: "fill",
   "source-layer": "original",
   paint: {
-    "fill-outline-color": "rgba(0,0,0,0.1)",
-    "fill-color": "rgba(0,0,0,0.1)",
+    "fill-outline-color": "rgba(0,0,0,0.5)",
+    "fill-color": "rgba(0,0,0,0.5)",
   },
 };
